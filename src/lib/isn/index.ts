@@ -5,6 +5,7 @@ export {
   DIA_LIMITE_PAGO,
   MESES,
   etiquetaPeriodo,
+  fechaLegible,
   fechaLimitePago,
   nombreMes,
   primerDiaDelPeriodo,

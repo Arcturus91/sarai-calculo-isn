@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Papel carbón.
+
+  La paleta viene de los formatos de declaración en triplicado: papel gris frío,
+  tinta azulada, el sello verde de "recibido" y el rosa de la copia. El rosa se
+  reserva para una sola cosa —la fecha límite— para que cuando aparezca, pese.
+*/
+@theme {
+  --color-papel: #eceef0;
+  --color-panel: #ffffff;
+  --color-tinta: #16212b;
+  --color-tinta-suave: #5c6b77;
+  --color-tinta-tenue: #8b98a3;
+  --color-regla: #d3d9de;
+  --color-sello: #0e6b5c;
+  --color-sello-tenue: #e4efec;
+  --color-copia: #c8305e;
+  --color-copia-tenue: #fbe9ee;
+
+  --font-sans: var(--fuente-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--fuente-mono), ui-monospace, monospace;
+  --font-serif: var(--fuente-serif), ui-serif, Georgia, serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Las cifras se alinean en columna: sin esto, el histórico no se puede leer. */
+  .cifra {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sello);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Etiqueta de campo: pequeña, espaciada, en versalitas. */
+  .rotulo {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-tinta-suave);
+  }
+
+  /*
+    El borde perforado del comprobante. Es el único adorno de la interfaz y
+    existe para que el panel del resultado se lea como una copia desprendible.
+  */
+  .perforado {
+    background-image: radial-gradient(
+      circle at 3px 50%,
+      var(--color-regla) 1.5px,
+      transparent 1.6px
+    );
+    background-size: 6px 11px;
+    background-repeat: repeat-y;
+    background-position: left top;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

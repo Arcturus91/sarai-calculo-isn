@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   etiquetaPeriodo,
+  fechaLegible,
   fechaLimitePago,
   primerDiaDelPeriodo,
   validarPeriodo,
@@ -61,6 +62,24 @@ describe("fechaLimitePago", () => {
 
   it("rechaza un periodo inválido", () => {
     expect(() => fechaLimitePago({ anio: 2026, mes: 13 })).toThrow(/mes/i);
+  });
+});
+
+describe("fechaLegible", () => {
+  it("escribe la fecha ISO en español", () => {
+    expect(fechaLegible("2026-08-17")).toBe("17 de agosto de 2026");
+  });
+
+  it("quita el cero a la izquierda del día", () => {
+    expect(fechaLegible("2027-01-07")).toBe("7 de enero de 2027");
+  });
+
+  it("rechaza un formato distinto de AAAA-MM-DD", () => {
+    expect(() => fechaLegible("17/08/2026")).toThrow(/formato/i);
+  });
+
+  it("rechaza un mes inexistente", () => {
+    expect(() => fechaLegible("2026-13-01")).toThrow(/mes/i);
   });
 });
 

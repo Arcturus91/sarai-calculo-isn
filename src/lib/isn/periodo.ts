@@ -70,6 +70,22 @@ export function etiquetaPeriodo(periodo: Periodo): string {
   return `${NOMBRES_MES[periodo.mes - 1]} ${periodo.anio}`;
 }
 
+/** Convierte una fecha ISO a texto legible: "2026-08-17" → "17 de agosto de 2026". */
+export function fechaLegible(iso: string): string {
+  const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!partes) {
+    throw new Error(`La fecha "${iso}" no tiene el formato AAAA-MM-DD.`);
+  }
+
+  const [, anio, mes, dia] = partes;
+  const nombre = NOMBRES_MES[Number(mes) - 1];
+  if (!nombre) {
+    throw new Error(`La fecha "${iso}" tiene un mes inválido.`);
+  }
+
+  return `${Number(dia)} de ${nombre.toLowerCase()} de ${Number(anio)}`;
+}
+
 /** Nombre del mes en español, para selectores y encabezados. */
 export function nombreMes(mes: number): string {
   if (!Number.isInteger(mes) || mes < 1 || mes > 12) {
