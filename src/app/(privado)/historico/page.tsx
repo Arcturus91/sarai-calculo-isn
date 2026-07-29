@@ -120,7 +120,7 @@ export default async function PaginaHistorico({
                 ))}
               </tbody>
               <tfoot>
-                <tr className="border-t border-regla">
+                <tr className="border-t-2 border-tinta">
                   <td className="px-5 py-3 font-medium">Total {anio}</td>
                   <td className="cifra px-5 py-3 text-right">{formatearPesos(totalBase)}</td>
                   <td />
