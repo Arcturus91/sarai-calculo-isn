@@ -1,14 +1,13 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 
 /**
- * La contraseña es el único candado de la plataforma, así que se exige larga.
+ * Largo mínimo aceptado.
  *
- * Sin base de datos de usuarios no hay bloqueo por IP que funcione entre
- * instancias serverless: la defensa real contra fuerza bruta es la entropía de
- * la contraseña, no el número de intentos. Por eso se rechaza al arrancar una
- * contraseña corta en lugar de aceptarla y confiar en el retardo.
+ * Es bajo a propósito, porque la propietaria eligió una contraseña corta. Con
+ * poca entropía, lo que realmente frena un ataque de fuerza bruta es el
+ * limitador de intentos por IP —ver `intentos.ts`—, no este umbral.
  */
-const LARGO_MINIMO = 16;
+const LARGO_MINIMO = 8;
 
 /** Retardo en cada intento fallido para encarecer los reintentos automatizados. */
 const RETARDO_FALLO_MS = 600;

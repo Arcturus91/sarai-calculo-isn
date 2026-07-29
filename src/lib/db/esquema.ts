@@ -4,6 +4,7 @@ import {
   boolean,
   check,
   date,
+  index,
   integer,
   numeric,
   pgTable,
@@ -72,6 +73,25 @@ export const calculos = pgTable(
     check("calculos_base_no_negativa", sql`${tabla.baseGravableCentavos} >= 0`),
     check("calculos_impuesto_no_negativo", sql`${tabla.impuestoCentavos} >= 0`),
   ],
+);
+
+/**
+ * Bitácora de intentos de acceso fallidos.
+ *
+ * Vive en la base de datos y no en memoria a propósito: en Vercel cada petición
+ * puede caer en una instancia distinta, así que un contador en memoria no
+ * frenaría a nadie. Con la contraseña actual, este límite es la defensa real
+ * contra la fuerza bruta.
+ */
+export const intentosAcceso = pgTable(
+  "intentos_acceso",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    /** IP de origen, tomada de la cabecera que pone Vercel. */
+    origen: text("origen").notNull(),
+    ocurrioEn: timestamp("ocurrio_en", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (tabla) => [index("intentos_origen_fecha_idx").on(tabla.origen, tabla.ocurrioEn)],
 );
 
 export type EmpresaFila = typeof empresas.$inferSelect;

@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "db:generate": "dotenv -e .env.local -- drizzle-kit generate",
     "db:migrate": "dotenv -e .env.local -- drizzle-kit migrate",
-    "db:seed": "dotenv -e .env.local -- tsx scripts/seed-tasas.ts"
+    "db:seed": "dotenv -e .env.local -- tsx scripts/seed-tasas.ts",
+    "humo": "dotenv -e .env.local -- tsx scripts/humo.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -20,6 +21,7 @@
     "exceljs": "^4.4.0",
     "jose": "^6.2.4",
     "next": "16.2.12",
+    "pdf-lib": "^1.17.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.4.3"
